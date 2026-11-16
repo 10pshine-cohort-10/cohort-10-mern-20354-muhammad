@@ -1,2 +1,107 @@
 # cohort-10-mern-20354-muhammad
 Cohort 10 — MERN (NodeJS+ReactJS) assignment for Muhammad Anas Amir
+
+## Project description
+
+A professional notes management application: a React (Vite) single-page app, an
+Express REST API, and PostgreSQL. Users register, log in, and create, read,
+update, delete, search and filter their own rich-text notes.
+
+The full approved design lives in [`docs/architecture.md`](docs/architecture.md).
+
+> **Status:** only tooling is set up so far (Phase 02: repository and tooling
+> baseline). There is no application code yet — no Express server, no database
+> schema, no API, no UI beyond a placeholder heading. Features arrive in later
+> phases of the roadmap defined in `docs/architecture.md`.
+
+## Prerequisites
+
+- **Node.js 20 LTS or newer** (see `.nvmrc`; developed on Node 24)
+- **npm** (ships with Node)
+- **Docker Desktop** (for local PostgreSQL 16)
+- Git
+
+## Setup
+
+> Windows note: this path contains a space (`D:\Notes App`). Quote paths in
+> every command you type.
+
+```bash
+# 1. Clone (quote the path because of the space)
+git clone https://github.com/MrAnas07/cohort-10-mern-20354-muhammad.git "Notes App"
+cd "Notes App"
+
+# 2. Create local env files from the committed examples (placeholders only)
+copy backend\.env.example backend\.env        # Windows
+copy frontend\.env.example frontend\.env      # Windows
+# macOS/Linux: cp backend/.env.example backend/.env
+#              cp frontend/.env.example frontend/.env
+
+# 3. Start PostgreSQL (creates the notes_dev and notes_test databases)
+docker compose up -d
+
+# 4. Install dependencies
+cd backend  && npm install
+cd ..\frontend && npm install
+
+# 5. Run
+cd backend  && npm run test        # backend smoke tests
+cd ..\frontend && npm run dev      # frontend dev server (Vite)
+```
+
+## Scripts
+
+**Backend (`backend/`)**
+
+| Script | Purpose |
+| --- | --- |
+| `npm test` | Run Mocha unit/integration tests |
+| `npm run test:coverage` | Run tests with c8 coverage (`lcov` + `text` into `coverage/`) |
+| `npm run lint` | ESLint check |
+| `npm run lint:fix` | ESLint with auto-fix |
+| `npm run format` | Prettier write |
+| `npm run format:check` | Prettier check |
+
+**Frontend (`frontend/`)**
+
+| Script | Purpose |
+| --- | --- |
+| `npm run dev` | Vite dev server |
+| `npm run build` | Production build |
+| `npm run preview` | Preview the production build |
+| `npm test` | Run Jest tests |
+| `npm run test:coverage` | Jest with `lcov` coverage into `coverage/` |
+| `npm run lint` | ESLint check |
+| `npm run lint:fix` | ESLint with auto-fix |
+| `npm run format` | Prettier write |
+| `npm run format:check` | Prettier check |
+
+**Root**
+
+| Command | Purpose |
+| --- | --- |
+| `docker compose up -d` | Start PostgreSQL 16 with `notes_dev` and `notes_test` |
+| `docker compose down` | Stop PostgreSQL (data kept in the `notes_pgdata` volume) |
+
+## Folder overview
+
+```
+.
+├── backend/            Node.js + Express API (CommonJS) — tooling only so far
+├── frontend/           React + Vite app (ES modules) — tooling only so far
+├── docker/postgres/    Init script that creates notes_dev and notes_test
+├── docs/               architecture.md (approved design)
+├── docker-compose.yml  Local PostgreSQL 16
+├── README.md
+├── .editorconfig
+├── .gitignore
+└── .nvmrc              Node 20
+```
+
+## Status
+
+Tooling baseline only (Phase 02):
+
+- ✅ Monorepo structure, lint/format/test tooling, PostgreSQL compose file
+- ⏳ Application features (auth, notes CRUD, editor) — not started; see the
+  roadmap in `docs/architecture.md`
