@@ -1,0 +1,5 @@
+module.exports = {
+  spec: 'test/**/*.test.js',
+  recursive: true,
+  timeout: 5000,
+};
