@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Environment variables (never ignore .env.example)
+.env
+
+# Build output
+dist/
+build/
+
+# Coverage
+coverage/
+lcov
+.scannerwork/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
