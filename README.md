@@ -105,3 +105,11 @@ Tooling baseline only (Phase 02):
 - ✅ Monorepo structure, lint/format/test tooling, PostgreSQL compose file
 - ⏳ Application features (auth, notes CRUD, editor) — not started; see the
   roadmap in `docs/architecture.md`
+
+## Known notes
+
+- `npm audit` reports findings only in dev tooling dependencies (both
+  packages currently have zero runtime dependencies).
+- Docker verification is pending: `docker-compose.yml` exists but has not
+  been run on this machine (Docker is not installed), so the PostgreSQL setup
+  is unverified.
