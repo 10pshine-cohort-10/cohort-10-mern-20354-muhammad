@@ -1,0 +1,3 @@
+# Normalize line endings: LF in the repository and in every working tree,
+# so Prettier's format:check passes identically on Windows and Unix.
+* text=auto eol=lf
