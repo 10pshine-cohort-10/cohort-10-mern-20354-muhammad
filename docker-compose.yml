@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: notes-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-notes}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-notes_local_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-notes_dev}
+    ports:
+      # Local development only. Loopback binding keeps PostgreSQL off the
+      # network, but on Docker Engine < 28 the published port may still be
+      # reachable through other host/network interfaces (e.g. iptables rules
+      # or Docker Desktop's VM), so extra host-level firewall controls may
+      # still be needed outside of local development.
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - notes_pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-notes} -d $${POSTGRES_DB:-notes_dev}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  notes_pgdata:
