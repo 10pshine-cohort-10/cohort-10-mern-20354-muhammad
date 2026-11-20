@@ -40,13 +40,22 @@ copy frontend\.env.example frontend\.env      # Windows
 # 3. Start PostgreSQL (creates the notes_dev and notes_test databases)
 docker compose up -d
 
-# 4. Install dependencies
-cd backend  && npm install
-cd ..\frontend && npm install
+# 4. Install dependencies (POSIX paths — works on macOS/Linux and in
+#    Git Bash / WSL on Windows)
+cd backend && npm install
+cd ../frontend && npm install
+cd .. # back to the repository root
 
-# 5. Run
-cd backend  && npm run test        # backend smoke tests
-cd ..\frontend && npm run dev      # frontend dev server (Vite)
+# 5. Run the backend (from the repository root)
+cd backend
+node src/server.js # API server on http://localhost:4000 (blocks; Ctrl+C stops it)
+
+# In a second terminal, from the repository root:
+cd backend && npm test # backend test suite
+
+# 6. Run the frontend (in another terminal, from the repository root)
+cd frontend
+npm run dev # frontend dev server (Vite)
 ```
 
 ## Scripts
