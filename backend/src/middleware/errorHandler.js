@@ -3,12 +3,15 @@
 const { randomUUID } = require('node:crypto');
 const { AppError } = require('../errors/AppError');
 const { logger } = require('../config/logger');
+const { REQUEST_ID_HEADER, isValidRequestId } = require('./httpLogger');
 
 // Body-parser errors happen before httpLogger runs, so req.id may be missing.
-// The envelope must always carry a requestId — generate one as a fallback.
+// Reuse a valid client-supplied X-Request-Id when present; otherwise generate
+// one. Either way the envelope and the response header must carry the same id.
 function ensureRequestId(req, res) {
   if (req.id) return req.id;
-  const id = randomUUID();
+  const incoming = req.headers[REQUEST_ID_HEADER];
+  const id = isValidRequestId(incoming) ? incoming : randomUUID();
   req.id = id;
   if (!res.headersSent) {
     res.setHeader('X-Request-Id', id);

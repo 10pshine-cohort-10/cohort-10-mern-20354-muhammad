@@ -28,4 +28,4 @@ const httpLogger = pinoHttp({
   },
 });
 
-module.exports = { httpLogger, REQUEST_ID_HEADER };
+module.exports = { httpLogger, REQUEST_ID_HEADER, isValidRequestId };
