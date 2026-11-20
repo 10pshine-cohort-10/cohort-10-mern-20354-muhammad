@@ -64,7 +64,7 @@ function toErrorResponse(err, requestId) {
   };
 }
 
-function errorHandler(err, req, res, _next) {
+function errorHandler(err, req, res, next) {
   const requestId = ensureRequestId(req, res);
   const { statusCode, body } = toErrorResponse(err, requestId);
   const logPayload = { requestId, statusCode };
@@ -79,7 +79,8 @@ function errorHandler(err, req, res, _next) {
   }
 
   if (res.headersSent) {
-    return;
+    // Response already streaming — delegate so Express handles the failure.
+    return next(err);
   }
 
   res.status(statusCode).json(body);
