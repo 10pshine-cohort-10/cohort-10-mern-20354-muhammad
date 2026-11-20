@@ -8,7 +8,11 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-notes_local_dev}
       POSTGRES_DB: ${POSTGRES_DB:-notes_dev}
     ports:
-      # Bind to loopback only so the DB is never reachable from the network.
+      # Local development only. Loopback binding keeps PostgreSQL off the
+      # network, but on Docker Engine < 28 the published port may still be
+      # reachable through other host/network interfaces (e.g. iptables rules
+      # or Docker Desktop's VM), so extra host-level firewall controls may
+      # still be needed outside of local development.
       - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     volumes:
       - notes_pgdata:/var/lib/postgresql/data
