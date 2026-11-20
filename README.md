@@ -16,7 +16,7 @@ The full approved design lives in [`docs/architecture.md`](docs/architecture.md)
 
 ## Prerequisites
 
-- **Node.js 20 LTS or newer** (see `.nvmrc`; developed on Node 24)
+- **Node.js 22 LTS or newer** (see `.nvmrc`; developed on Node 24)
 - **npm** (ships with Node)
 - **Docker Desktop** (for local PostgreSQL 16)
 - Git
@@ -104,7 +104,7 @@ npm run dev # frontend dev server (Vite)
 ├── README.md
 ├── .editorconfig
 ├── .gitignore
-└── .nvmrc              Node 20
+└── .nvmrc              Node 22
 ```
 
 ## Status
