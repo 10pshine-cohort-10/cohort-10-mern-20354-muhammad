@@ -1,0 +1,27 @@
+{
+  "name": "notes-backend",
+  "version": "1.0.0",
+  "description": "Notes App REST API (Express + PostgreSQL) — tooling baseline only",
+  "private": true,
+  "scripts": {
+    "test": "mocha",
+    "test:coverage": "c8 --reporter=lcov --reporter=text --report-dir=coverage mocha",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "keywords": [],
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "c8": "^12.0.0",
+    "chai": "^4.5.0",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.14.0",
+    "mocha": "^12.0.3",
+    "prettier": "^3.10.1"
+  }
+}
