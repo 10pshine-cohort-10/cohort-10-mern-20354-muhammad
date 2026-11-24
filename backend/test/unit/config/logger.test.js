@@ -4,6 +4,7 @@ const { expect } = require('chai');
 const { Writable } = require('node:stream');
 
 const { createLogger } = require('../../../src/config/logger');
+const { reqSerializer, pathOnly } = require('../../../src/middleware/httpLogger');
 
 function createCaptureStream() {
   const capture = { data: '' };
@@ -62,5 +63,35 @@ describe('unit: logger redaction', () => {
     ]) {
       expect(capture.data, `"${secret}" must not appear in logs`).to.not.include(secret);
     }
+  });
+});
+
+describe('unit: http logger request serializer', () => {
+  it('logs the path only and never the raw query string', () => {
+    const serialized = reqSerializer({
+      id: 'req-1',
+      method: 'GET',
+      url: '/api/v1/notes?token=supersecret&q=private-search',
+      headers: { 'user-agent': 'mocha' },
+      remoteAddress: '127.0.0.1',
+      remotePort: 4000,
+    });
+
+    expect(serialized.url).to.equal('/api/v1/notes');
+    expect(serialized.id).to.equal('req-1');
+    expect(serialized.method).to.equal('GET');
+    expect(serialized.headers).to.deep.equal({ 'user-agent': 'mocha' });
+    expect(serialized).to.not.have.property('query');
+
+    const line = JSON.stringify(serialized);
+    expect(line).to.not.include('supersecret');
+    expect(line).to.not.include('private-search');
+    expect(line).to.not.include('?');
+  });
+
+  it('keeps urls without a query string untouched', () => {
+    expect(pathOnly('/api/v1/health')).to.equal('/api/v1/health');
+    expect(pathOnly('/api/v1/notes?page=2')).to.equal('/api/v1/notes');
+    expect(pathOnly(undefined)).to.equal(undefined);
   });
 });
